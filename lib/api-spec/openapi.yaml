@@ -1,0 +1,577 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: NoteShare — Student Notes Sharing Platform API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: notes
+    description: Notes CRUD and interactions
+  - name: users
+    description: User profile operations
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ── Auth ──────────────────────────────────────────────────
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Log in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current authenticated user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateMe
+      tags: [auth]
+      summary: Update current user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── Notes ─────────────────────────────────────────────────
+  /notes:
+    get:
+      operationId: listNotes
+      tags: [notes]
+      summary: List notes with optional search, subject filter, and sort
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search query for title, subject, or tags
+        - in: query
+          name: subject
+          schema:
+            type: string
+          description: Filter by subject
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [newest, popular, viewed]
+          description: Sort order
+      responses:
+        "200":
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+    post:
+      operationId: createNote
+      tags: [notes]
+      summary: Create a new note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /notes/stats:
+    get:
+      operationId: getNotesStats
+      tags: [notes]
+      summary: Get aggregate statistics for the dashboard
+      responses:
+        "200":
+          description: Stats summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotesStats"
+
+  /notes/trending:
+    get:
+      operationId: getTrendingNotes
+      tags: [notes]
+      summary: Get top trending notes by likes
+      responses:
+        "200":
+          description: Trending notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+
+  /notes/activity:
+    get:
+      operationId: getRecentActivity
+      tags: [notes]
+      summary: Get recent platform activity feed
+      responses:
+        "200":
+          description: Activity items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /notes/{id}:
+    get:
+      operationId: getNote
+      tags: [notes]
+      summary: Get a single note by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateNote
+      tags: [notes]
+      summary: Update a note
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteUpdate"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteNote
+      tags: [notes]
+      summary: Delete a note
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /notes/{id}/like:
+    post:
+      operationId: toggleLike
+      tags: [notes]
+      summary: Toggle like on a note
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated like status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LikeResult"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /notes/{id}/view:
+    post:
+      operationId: recordView
+      tags: [notes]
+      summary: Record a view on a note
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: View recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+
+  # ── Users ─────────────────────────────────────────────────
+  /users/{id}/notes:
+    get:
+      operationId: getUserNotes
+      tags: [users]
+      summary: Get notes uploaded by a specific user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User's notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    # ── Auth schemas ──
+    RegisterInput:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+        university:
+          type: string
+
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+
+    User:
+      type: object
+      required: [id, name, email, role, notesCount, likesReceived]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        bio:
+          type: ["string", "null"]
+        university:
+          type: ["string", "null"]
+        notesCount:
+          type: integer
+        likesReceived:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        bio:
+          type: string
+        university:
+          type: string
+
+    # ── Note schemas ──
+    Note:
+      type: object
+      required: [id, title, subject, content, authorId, authorName, likes, views, downloads, tags, fileType, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        authorId:
+          type: integer
+        authorName:
+          type: string
+        authorInitial:
+          type: string
+        likes:
+          type: integer
+        views:
+          type: integer
+        downloads:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: string
+        fileType:
+          type: string
+        isLiked:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    NoteInput:
+      type: object
+      required: [title, subject, content]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        subject:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        fileType:
+          type: string
+
+    NoteUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    # ── Dashboard / wow schemas ──
+    NotesStats:
+      type: object
+      required: [totalNotes, totalUsers, totalLikes, totalViews]
+      properties:
+        totalNotes:
+          type: integer
+        totalUsers:
+          type: integer
+        totalLikes:
+          type: integer
+        totalViews:
+          type: integer
+        myNotes:
+          type: integer
+        myLikes:
+          type: integer
+
+    ActivityItem:
+      type: object
+      required: [id, type, actorName, description, createdAt]
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [upload, like, view, register]
+        actorName:
+          type: string
+        description:
+          type: string
+        noteTitle:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    LikeResult:
+      type: object
+      required: [liked, likes]
+      properties:
+        liked:
+          type: boolean
+        likes:
+          type: integer

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — NoteShare</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="page-loader"><div class="loader-ring"></div></div>
+  <div id="toast-container"></div>
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">📚</div>
+        NoteShare
+      </div>
+
+      <div class="sidebar-section-label">Main</div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="active"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="view.html"><span class="nav-icon">🔍</span> Browse Notes</a>
+        <a href="upload.html"><span class="nav-icon">📤</span> Upload Notes</a>
+        <a href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      </nav>
+
+      <div class="sidebar-section-label">Subjects</div>
+      <nav class="sidebar-nav">
+        <a href="view.html?subject=Mathematics"><span class="nav-icon">📐</span> Mathematics</a>
+        <a href="view.html?subject=Chemistry"><span class="nav-icon">⚗️</span> Chemistry</a>
+        <a href="view.html?subject=Computer+Science"><span class="nav-icon">💻</span> Computer Science</a>
+        <a href="view.html?subject=Biology"><span class="nav-icon">🔬</span> Biology</a>
+        <a href="view.html?subject=Physics"><span class="nav-icon">⚛️</span> Physics</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar user-avatar-initials">A</div>
+          <div class="sidebar-user-info">
+            <div class="user-name sidebar-user-name">Loading…</div>
+            <div class="user-role sidebar-user-role">Student</div>
+          </div>
+          <button class="logout-btn" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button id="menu-toggle" style="background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;">☰</button>
+          <div class="top-bar-title">Good morning, <span class="user-greeting-name">Student</span> 👋</div>
+        </div>
+        <div class="top-bar-actions">
+          <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="search" placeholder="Search notes…" id="dash-search" />
+          </div>
+          <button class="notif-btn" title="Notifications" onclick="ToastManager.show('No new notifications','info')">
+            🔔
+            <span class="notif-dot"></span>
+          </button>
+          <a href="upload.html" class="btn btn-primary btn-sm">+ Upload</a>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card card">
+            <div class="stat-card-bg"></div>
+            <div class="stat-icon">📚</div>
+            <div class="stat-num stat-total-notes">0</div>
+            <div class="stat-label">Total Notes</div>
+            <div class="stat-change up">↑ 12 this week</div>
+          </div>
+          <div class="stat-card card">
+            <div class="stat-card-bg"></div>
+            <div class="stat-icon">📝</div>
+            <div class="stat-num stat-my-notes">0</div>
+            <div class="stat-label">My Uploads</div>
+            <div class="stat-change up">↑ 2 new</div>
+          </div>
+          <div class="stat-card card">
+            <div class="stat-card-bg"></div>
+            <div class="stat-icon">♥</div>
+            <div class="stat-num stat-total-likes">0</div>
+            <div class="stat-label">Total Likes</div>
+            <div class="stat-change up">↑ 45 today</div>
+          </div>
+          <div class="stat-card card">
+            <div class="stat-card-bg"></div>
+            <div class="stat-icon">👁</div>
+            <div class="stat-num stat-total-views">0</div>
+            <div class="stat-label">Total Views</div>
+            <div class="stat-change up">↑ 230 today</div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+          <!-- Recent Notes -->
+          <div>
+            <div class="notes-header">
+              <div class="section-heading">Recent Notes</div>
+              <a href="view.html" class="btn btn-outline btn-sm">View All</a>
+            </div>
+            <div class="notes-grid" id="recent-notes-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Activity Feed -->
+          <div>
+            <div class="notes-header">
+              <div class="section-heading">Activity Feed</div>
+            </div>
+            <div class="card" style="padding:20px;">
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon">📤</div>
+                  <div>
+                    <div class="activity-text"><strong>Aarav Sharma</strong> uploaded <strong>Calculus Ch.5</strong></div>
+                    <div class="activity-time">2 minutes ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">♥</div>
+                  <div>
+                    <div class="activity-text"><strong>Priya Patel</strong> liked <strong>Python Basics</strong></div>
+                    <div class="activity-time">18 minutes ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">🔍</div>
+                  <div>
+                    <div class="activity-text"><strong>Rohan Singh</strong> searched for <strong>Organic Chemistry</strong></div>
+                    <div class="activity-time">1 hour ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">📥</div>
+                  <div>
+                    <div class="activity-text"><strong>Neha Gupta</strong> downloaded <strong>History Notes</strong></div>
+                    <div class="activity-time">2 hours ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">👤</div>
+                  <div>
+                    <div class="activity-text"><strong>New student</strong> joined NoteShare</div>
+                    <div class="activity-time">3 hours ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">📤</div>
+                  <div>
+                    <div class="activity-text"><strong>Priya Patel</strong> uploaded <strong>GDP &amp; Growth</strong></div>
+                    <div class="activity-time">4 hours ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="card" style="margin-top:20px;padding:20px;">
+              <div class="section-heading" style="margin-bottom:16px;">Quick Actions</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <a href="upload.html" class="btn btn-primary btn-block">📤 Upload New Notes</a>
+                <a href="view.html"   class="btn btn-ghost btn-block">🔍 Browse All Notes</a>
+                <a href="profile.html" class="btn btn-ghost btn-block">👤 View My Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

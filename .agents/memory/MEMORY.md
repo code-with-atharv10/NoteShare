@@ -1,0 +1,1 @@
+- [Drizzle inArray vs raw ANY()](drizzle-inarray.md) — Never pass a JS array into raw sql\`... = ANY(${arr})\`; use inArray() from drizzle-orm instead.

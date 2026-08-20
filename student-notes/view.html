@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Notes — NoteShare</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="page-loader"><div class="loader-ring"></div></div>
+  <div id="toast-container"></div>
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">📚</div>
+        NoteShare
+      </div>
+      <div class="sidebar-section-label">Main</div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="view.html" class="active"><span class="nav-icon">🔍</span> Browse Notes</a>
+        <a href="upload.html"><span class="nav-icon">📤</span> Upload Notes</a>
+        <a href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      </nav>
+      <div class="sidebar-section-label">Browse by Subject</div>
+      <nav class="sidebar-nav">
+        <a href="view.html?subject=Mathematics"><span class="nav-icon">📐</span> Mathematics</a>
+        <a href="view.html?subject=Chemistry"><span class="nav-icon">⚗️</span> Chemistry</a>
+        <a href="view.html?subject=Computer+Science"><span class="nav-icon">💻</span> Computer Science</a>
+        <a href="view.html?subject=Biology"><span class="nav-icon">🔬</span> Biology</a>
+        <a href="view.html?subject=Physics"><span class="nav-icon">⚛️</span> Physics</a>
+        <a href="view.html?subject=History"><span class="nav-icon">📜</span> History</a>
+        <a href="view.html?subject=Economics"><span class="nav-icon">📈</span> Economics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar user-avatar-initials">A</div>
+          <div class="sidebar-user-info">
+            <div class="user-name sidebar-user-name">Loading…</div>
+            <div class="user-role sidebar-user-role">Student</div>
+          </div>
+          <button class="logout-btn" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <div class="top-bar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button id="menu-toggle" style="background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;">☰</button>
+          <div class="top-bar-title">Browse Notes</div>
+        </div>
+        <div class="top-bar-actions">
+          <a href="upload.html" class="btn btn-primary btn-sm">+ Upload</a>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="notes-filter-bar">
+        <div class="filter-search">
+          <span class="search-icon">🔍</span>
+          <input type="search" id="notes-search" placeholder="Search by title, subject, or tag…" />
+        </div>
+        <div class="filter-tags">
+          <span class="tag active" data-filter="all">All</span>
+          <span class="tag" data-filter="Mathematics">📐 Math</span>
+          <span class="tag" data-filter="Chemistry">⚗️ Chemistry</span>
+          <span class="tag" data-filter="Physics">⚛️ Physics</span>
+          <span class="tag" data-filter="Biology">🔬 Biology</span>
+          <span class="tag" data-filter="Computer Science">💻 CS</span>
+          <span class="tag" data-filter="History">📜 History</span>
+          <span class="tag" data-filter="Economics">📈 Economics</span>
+        </div>
+        <select class="filter-select" id="sort-select">
+          <option value="newest">Newest First</option>
+          <option value="popular">Most Liked</option>
+          <option value="viewed">Most Viewed</option>
+        </select>
+      </div>
+
+      <!-- Notes Grid -->
+      <div class="all-notes-grid" id="all-notes-grid">
+        <!-- Populated by JS -->
+      </div>
+    </main>
+  </div>
+
+  <!-- NOTE DETAIL MODAL -->
+  <div class="modal-overlay" id="note-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-note-title">Note Title</div>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-meta">
+          <span class="badge badge-primary" id="modal-note-subject"></span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="mini-avatar" id="modal-avatar">A</div>
+            <span class="text-sm text-muted" id="modal-note-author"></span>
+          </div>
+          <span class="text-sm text-muted" id="modal-note-date"></span>
+        </div>
+        <div class="note-content" id="modal-note-content"></div>
+        <div class="note-tags" id="modal-note-tags"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" id="modal-like-btn">♥ 0</button>
+        <button class="btn btn-outline btn-sm" id="modal-download-btn">⬇ Download</button>
+        <button class="btn btn-ghost btn-sm" id="modal-close-btn" onclick="document.getElementById('note-modal').classList.remove('open');document.body.style.overflow='';">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

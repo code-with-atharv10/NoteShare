@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — NoteShare</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="page-loader"><div class="loader-ring"></div></div>
+  <div id="toast-container"></div>
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">📚</div>
+        NoteShare
+      </div>
+      <div class="sidebar-section-label">Main</div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="view.html"><span class="nav-icon">🔍</span> Browse Notes</a>
+        <a href="upload.html"><span class="nav-icon">📤</span> Upload Notes</a>
+        <a href="profile.html" class="active"><span class="nav-icon">👤</span> My Profile</a>
+      </nav>
+      <div class="sidebar-section-label">Subjects</div>
+      <nav class="sidebar-nav">
+        <a href="view.html?subject=Mathematics"><span class="nav-icon">📐</span> Mathematics</a>
+        <a href="view.html?subject=Chemistry"><span class="nav-icon">⚗️</span> Chemistry</a>
+        <a href="view.html?subject=Computer+Science"><span class="nav-icon">💻</span> Computer Science</a>
+        <a href="view.html?subject=Biology"><span class="nav-icon">🔬</span> Biology</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar profile-avatar-init user-avatar-initials">A</div>
+          <div class="sidebar-user-info">
+            <div class="user-name sidebar-user-name">Loading…</div>
+            <div class="user-role sidebar-user-role">Student</div>
+          </div>
+          <button class="logout-btn" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <div class="top-bar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button id="menu-toggle" style="background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;">☰</button>
+          <div class="top-bar-title">My Profile</div>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Profile Header -->
+        <div class="profile-header-card card" style="margin-bottom:24px;">
+          <div class="profile-avatar avatar" style="width:80px;height:80px;font-size:2rem;">
+            <span class="profile-avatar-init">A</span>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name profile-display-name">Loading…</div>
+            <div class="profile-email profile-display-email text-muted" style="margin-top:4px;font-size:0.9rem;"></div>
+            <div class="profile-bio profile-display-bio text-muted" style="margin-top:10px;font-size:0.85rem;max-width:400px;"></div>
+            <div class="profile-stats">
+              <div class="profile-stat-item">
+                <div class="psn" id="stat-my-notes">0</div>
+                <div class="psl">Notes</div>
+              </div>
+              <div class="profile-stat-item">
+                <div class="psn" id="stat-my-likes">0</div>
+                <div class="psl">Likes Received</div>
+              </div>
+              <div class="profile-stat-item">
+                <div class="psn" id="stat-my-followers">0</div>
+                <div class="psl">Followers</div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('edit-profile-section').scrollIntoView({behavior:'smooth'})">Edit Profile</button>
+            <a href="upload.html" class="btn btn-primary btn-sm">+ Upload Notes</a>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display:flex;gap:4px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:24px;max-width:400px;">
+          <button class="btn btn-primary btn-sm" id="tab-notes" onclick="switchTab('notes')" style="flex:1;">My Notes</button>
+          <button class="btn btn-ghost btn-sm"   id="tab-liked" onclick="switchTab('liked')"  style="flex:1;">Liked Notes</button>
+          <button class="btn btn-ghost btn-sm"   id="tab-edit"  onclick="switchTab('edit')"   style="flex:1;">Settings</button>
+        </div>
+
+        <!-- My Notes Tab -->
+        <div id="notes-tab">
+          <div class="all-notes-grid" id="my-notes-grid" style="padding:0;"></div>
+        </div>
+
+        <!-- Liked Notes Tab -->
+        <div id="liked-tab" style="display:none;">
+          <div id="liked-notes-grid" class="all-notes-grid" style="padding:0;">
+            <div class="text-center text-muted" style="grid-column:1/-1;padding:40px 0;">
+              <div style="font-size:3rem;margin-bottom:12px;">♥</div>
+              <p>Notes you like will appear here.</p>
+              <br>
+              <a href="view.html" class="btn btn-outline">Browse Notes</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Profile Tab -->
+        <div id="edit-tab" style="display:none;" id="edit-profile-section">
+          <div class="card" style="max-width:560px;padding:32px;">
+            <div style="font-size:1.1rem;font-weight:700;margin-bottom:24px;">Edit Profile</div>
+            <form id="edit-profile-form">
+              <div class="form-group">
+                <label class="form-label" for="edit-name">Full Name</label>
+                <div class="input-wrapper">
+                  <span class="form-icon">👤</span>
+                  <input class="form-control" type="text" id="edit-name" placeholder="Your name" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-email">Email</label>
+                <div class="input-wrapper">
+                  <span class="form-icon">✉</span>
+                  <input class="form-control" type="email" id="edit-email" placeholder="your@email.com" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-bio">Bio</label>
+                <div class="input-wrapper textarea-wrap">
+                  <span class="form-icon">📋</span>
+                  <textarea class="form-control" id="edit-bio" rows="3" placeholder="Tell others about yourself…"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-university">University</label>
+                <div class="input-wrapper">
+                  <span class="form-icon">🎓</span>
+                  <input class="form-control" type="text" id="edit-university" placeholder="Your university / college" />
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-ghost" onclick="switchTab('notes')">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Change Password -->
+          <div class="card" style="max-width:560px;padding:32px;margin-top:20px;">
+            <div style="font-size:1.1rem;font-weight:700;margin-bottom:24px;">Change Password</div>
+            <form id="change-password-form" onsubmit="handleChangePassword(event)">
+              <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <div class="input-wrapper">
+                  <span class="form-icon">🔒</span>
+                  <input class="form-control" type="password" id="current-password" placeholder="Current password" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <div class="input-wrapper">
+                  <span class="form-icon">🔑</span>
+                  <input class="form-control" type="password" id="new-password" placeholder="New password" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-outline">Update Password</button>
+            </form>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="card" style="max-width:560px;padding:32px;margin-top:20px;border-color:rgba(255,101,132,0.25);">
+            <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;color:var(--accent);">Danger Zone</div>
+            <p class="text-muted text-sm" style="margin-bottom:16px;">Permanently log out from this device, or delete your account.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button class="btn btn-ghost btn-sm logout-btn">Log Out</button>
+              <button class="btn btn-danger btn-sm" onclick="ToastManager.show('Account deletion is permanent — feature coming soon.','error')">Delete Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      ['notes','liked','edit'].forEach(t => {
+        document.getElementById(t+'-tab').style.display = t===tab ? '' : 'none';
+        const btn = document.getElementById('tab-'+t);
+        btn.className = t===tab ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm';
+        btn.style.flex = '1';
+      });
+    }
+    function handleChangePassword(e) {
+      e.preventDefault();
+      const cur = document.getElementById('current-password').value;
+      const nw  = document.getElementById('new-password').value;
+      if (!cur || !nw) { ToastManager.show('Please fill both fields','error'); return; }
+      ToastManager.show('Password updated!','success');
+      e.target.reset();
+    }
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>

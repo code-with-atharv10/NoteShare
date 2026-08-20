@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Notes — NoteShare</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="page-loader"><div class="loader-ring"></div></div>
+  <div id="toast-container"></div>
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">📚</div>
+        NoteShare
+      </div>
+      <div class="sidebar-section-label">Main</div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="view.html"><span class="nav-icon">🔍</span> Browse Notes</a>
+        <a href="upload.html" class="active"><span class="nav-icon">📤</span> Upload Notes</a>
+        <a href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      </nav>
+      <div class="sidebar-section-label">Subjects</div>
+      <nav class="sidebar-nav">
+        <a href="view.html?subject=Mathematics"><span class="nav-icon">📐</span> Mathematics</a>
+        <a href="view.html?subject=Chemistry"><span class="nav-icon">⚗️</span> Chemistry</a>
+        <a href="view.html?subject=Computer+Science"><span class="nav-icon">💻</span> Computer Science</a>
+        <a href="view.html?subject=Biology"><span class="nav-icon">🔬</span> Biology</a>
+        <a href="view.html?subject=Physics"><span class="nav-icon">⚛️</span> Physics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar user-avatar-initials">A</div>
+          <div class="sidebar-user-info">
+            <div class="user-name sidebar-user-name">Loading…</div>
+            <div class="user-role sidebar-user-role">Student</div>
+          </div>
+          <button class="logout-btn" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <div class="top-bar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button id="menu-toggle" style="background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;">☰</button>
+          <div class="top-bar-title">Upload Notes</div>
+        </div>
+        <div class="top-bar-actions">
+          <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <div class="upload-wrap">
+          <!-- Guidelines -->
+          <div class="card" style="margin-bottom:24px;padding:20px 24px;">
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <span style="font-size:1.5rem;">💡</span>
+              <div>
+                <div style="font-weight:600;margin-bottom:6px;">Upload Tips</div>
+                <ul style="color:var(--text-muted);font-size:0.875rem;display:flex;flex-direction:column;gap:4px;list-style:disc;padding-left:16px;">
+                  <li>Accepted formats: PDF, DOCX, PPT, PPTX, TXT, PNG, JPG</li>
+                  <li>Maximum file size: 50 MB per file</li>
+                  <li>Add clear titles and tags to help others find your notes</li>
+                  <li>High-quality, well-organized notes get more likes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <form id="upload-form">
+            <!-- File Drop Zone -->
+            <div class="form-group">
+              <label class="form-label">Upload File(s)</label>
+              <div class="dropzone" id="dropzone">
+                <input type="file" id="file-input" class="dropzone-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg" />
+                <div class="dropzone-icon">📁</div>
+                <div class="dropzone-title">Drag &amp; drop files here</div>
+                <div class="dropzone-hint">or <strong style="color:var(--primary)">click to browse</strong></div>
+                <div class="dropzone-types">
+                  <span class="badge badge-primary">PDF</span>
+                  <span class="badge badge-primary">DOCX</span>
+                  <span class="badge badge-primary">PPT</span>
+                  <span class="badge badge-primary">TXT</span>
+                  <span class="badge badge-primary">Images</span>
+                </div>
+              </div>
+              <div class="upload-preview-list" id="upload-preview-list"></div>
+            </div>
+
+            <!-- Title -->
+            <div class="form-group">
+              <label class="form-label" for="note-title">Note Title <span style="color:var(--accent)">*</span></label>
+              <div class="input-wrapper">
+                <span class="form-icon">📝</span>
+                <input class="form-control" type="text" id="note-title" placeholder="e.g. Calculus — Differential Equations Ch.4" required />
+              </div>
+            </div>
+
+            <!-- Subject & Semester -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group">
+                <label class="form-label" for="note-subject">Subject <span style="color:var(--accent)">*</span></label>
+                <select class="form-control" id="note-subject" required>
+                  <option value="">— Select Subject —</option>
+                  <option value="Mathematics">📐 Mathematics</option>
+                  <option value="Chemistry">⚗️ Chemistry</option>
+                  <option value="Physics">⚛️ Physics</option>
+                  <option value="Biology">🔬 Biology</option>
+                  <option value="Computer Science">💻 Computer Science</option>
+                  <option value="History">📜 History</option>
+                  <option value="Economics">📈 Economics</option>
+                  <option value="Literature">📖 Literature</option>
+                  <option value="Geography">🌍 Geography</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="note-semester">Semester</label>
+                <select class="form-control" id="note-semester">
+                  <option value="">— Select —</option>
+                  <option value="1">Semester 1</option>
+                  <option value="2">Semester 2</option>
+                  <option value="3">Semester 3</option>
+                  <option value="4">Semester 4</option>
+                  <option value="5">Semester 5</option>
+                  <option value="6">Semester 6</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Content / Description -->
+            <div class="form-group">
+              <label class="form-label" for="note-content">Content / Description <span style="color:var(--accent)">*</span></label>
+              <div class="input-wrapper textarea-wrap">
+                <span class="form-icon">📋</span>
+                <textarea class="form-control" id="note-content" placeholder="Paste your notes content, or describe what's in the uploaded file…" rows="8" required></textarea>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="form-group">
+              <label class="form-label">Tags <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Press Enter or comma to add)</span></label>
+              <div class="tags-input-wrap" id="tags-wrap" onclick="document.getElementById('tag-input-real').focus()">
+                <input type="text" id="tag-input-real" class="tags-real-input" placeholder="e.g. calculus, derivatives, exam…" />
+              </div>
+            </div>
+
+            <!-- Visibility -->
+            <div class="form-group">
+              <label class="form-label">Visibility</label>
+              <div style="display:flex;gap:14px;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 18px;flex:1;transition:var(--transition);" class="vis-option">
+                  <input type="radio" name="visibility" value="public" checked style="accent-color:var(--primary);" />
+                  <div>
+                    <div style="font-weight:600;font-size:0.9rem;">🌍 Public</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">Visible to all students</div>
+                  </div>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 18px;flex:1;transition:var(--transition);" class="vis-option">
+                  <input type="radio" name="visibility" value="private" style="accent-color:var(--primary);" />
+                  <div>
+                    <div style="font-weight:600;font-size:0.9rem;">🔒 Private</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">Only visible to you</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:14px;margin-top:8px;">
+              <button type="submit" class="btn btn-primary btn-lg" style="flex:1;">📤 Publish Notes</button>
+              <button type="reset" class="btn btn-ghost btn-lg" onclick="document.getElementById('upload-preview-list').innerHTML='';document.getElementById('tags-wrap').querySelectorAll('.tag-item').forEach(t=>t.remove());">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

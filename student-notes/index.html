@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteShare — Student Notes Sharing Platform</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Loader -->
+  <div id="page-loader"><div class="loader-ring"></div></div>
+  <!-- Toast -->
+  <div id="toast-container"></div>
+  <!-- BG -->
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">📚</div>
+        NoteShare
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="view.html">Browse Notes</a>
+        <a href="#features">Features</a>
+        <a href="#subjects">Subjects</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html"  class="btn btn-outline btn-sm" id="nav-login-btn">Sign In</a>
+        <a href="signup.html" class="btn btn-primary btn-sm" id="nav-signup-btn">Get Started</a>
+        <a href="dashboard.html" class="btn btn-primary btn-sm" id="nav-dash-btn" style="display:none">Dashboard</a>
+      </div>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">✦ Free for all students</div>
+        <h1 class="hero-title">
+          Share &amp; Discover<br>
+          <span>Student Notes</span>
+        </h1>
+        <p class="hero-desc">
+          Join thousands of students uploading, sharing, and downloading quality notes across every subject. Study smarter, together.
+        </p>
+        <div class="hero-btns">
+          <a href="signup.html" class="btn btn-primary btn-lg">Start Sharing Free</a>
+          <a href="view.html"   class="btn btn-ghost btn-lg">Browse Notes</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-count="12400" data-suffix="+">0</div>
+            <div class="hero-stat-label">Notes Shared</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-count="3800" data-suffix="+">0</div>
+            <div class="hero-stat-label">Students</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-count="24" data-suffix="">0</div>
+            <div class="hero-stat-label">Subjects</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="hero-visual">
+        <div class="floating-chip">
+          <span class="chip-icon">🔥</span> Trending: Calculus Notes
+        </div>
+        <div class="hero-mockup">
+          <div class="mockup-header">
+            <div class="mockup-dots"><span></span><span></span><span></span></div>
+            <div class="mockup-title">Recent Notes</div>
+          </div>
+          <div class="mockup-notes">
+            <div class="mockup-note">
+              <span class="note-icon">📄</span>
+              <div class="note-info">
+                <div class="note-name">Introduction to Calculus</div>
+                <div class="note-meta">Aarav · Mathematics · 312 views</div>
+              </div>
+              <span class="badge badge-green note-badge">PDF</span>
+            </div>
+            <div class="mockup-note">
+              <span class="note-icon">💻</span>
+              <div class="note-info">
+                <div class="note-name">Python Basics</div>
+                <div class="note-meta">Neha · Computer Science · 674 views</div>
+              </div>
+              <span class="badge badge-primary note-badge">New</span>
+            </div>
+            <div class="mockup-note">
+              <span class="note-icon">📊</span>
+              <div class="note-info">
+                <div class="note-name">Organic Chemistry</div>
+                <div class="note-meta">Priya · Chemistry · 489 views</div>
+              </div>
+              <span class="badge badge-yellow note-badge">PPT</span>
+            </div>
+            <div class="mockup-note">
+              <span class="note-icon">🔬</span>
+              <div class="note-info">
+                <div class="note-name">Human Anatomy</div>
+                <div class="note-meta">Aarav · Biology · 341 views</div>
+              </div>
+              <span class="badge badge-red note-badge">Hot</span>
+            </div>
+          </div>
+        </div>
+        <div class="floating-chip">
+          <span class="chip-icon">⬆️</span> 91 uploads today
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-title">Everything you need to study better</div>
+      <div class="section-subtitle">A complete platform built for students — upload, discover, and ace your exams.</div>
+      <div class="features-grid">
+        <div class="feature-card card">
+          <div class="feature-icon">📤</div>
+          <div class="feature-title">Easy Upload</div>
+          <div class="feature-desc">Upload PDFs, Word docs, PowerPoints, and more in seconds. Drag &amp; drop support with instant previews.</div>
+        </div>
+        <div class="feature-card card">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Smart Search</div>
+          <div class="feature-desc">Search across thousands of notes by subject, topic, keyword, or author. Find exactly what you need instantly.</div>
+        </div>
+        <div class="feature-card card">
+          <div class="feature-icon">📱</div>
+          <div class="feature-title">Mobile Friendly</div>
+          <div class="feature-desc">Study on any device. NoteShare is fully responsive — access your notes from phone, tablet, or laptop.</div>
+        </div>
+        <div class="feature-card card">
+          <div class="feature-icon">♥</div>
+          <div class="feature-title">Like &amp; Save</div>
+          <div class="feature-desc">Like your favourite notes, save them for later, and build your personal study collection.</div>
+        </div>
+        <div class="feature-card card">
+          <div class="feature-icon">🏷️</div>
+          <div class="feature-title">Smart Tagging</div>
+          <div class="feature-desc">Organise notes with custom tags. Browse by subject, semester, difficulty, or exam type.</div>
+        </div>
+        <div class="feature-card card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">Community</div>
+          <div class="feature-desc">Connect with students across your university. Follow top contributors and get notified of new uploads.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBJECTS -->
+  <section class="subjects-section" id="subjects">
+    <div class="container">
+      <div class="section-title">Browse by Subject</div>
+      <div class="section-subtitle">Explore notes across every discipline — from exact sciences to humanities.</div>
+      <div class="subjects-grid">
+        <div class="subject-card card">
+          <div class="subject-emoji">📐</div>
+          <div class="subject-name">Mathematics</div>
+          <div class="subject-count">2,340 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">⚗️</div>
+          <div class="subject-name">Chemistry</div>
+          <div class="subject-count">1,890 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">⚛️</div>
+          <div class="subject-name">Physics</div>
+          <div class="subject-count">1,540 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">🔬</div>
+          <div class="subject-name">Biology</div>
+          <div class="subject-count">1,720 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">💻</div>
+          <div class="subject-name">Computer Science</div>
+          <div class="subject-count">2,010 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">📜</div>
+          <div class="subject-name">History</div>
+          <div class="subject-count">890 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">📈</div>
+          <div class="subject-name">Economics</div>
+          <div class="subject-count">780 notes</div>
+        </div>
+        <div class="subject-card card">
+          <div class="subject-emoji">📖</div>
+          <div class="subject-name">Literature</div>
+          <div class="subject-count">660 notes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="section-title">Ready to ace your exams?</div>
+        <div class="section-subtitle">Join 3,800+ students already sharing notes on NoteShare. It's free, forever.</div>
+        <div class="cta-btns">
+          <a href="signup.html" class="btn btn-primary btn-lg">Create Free Account</a>
+          <a href="view.html"   class="btn btn-outline btn-lg">Browse Notes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">📚 NoteShare</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="view.html">Browse</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <div class="footer-copy">© 2026 NoteShare. Built for students, by students.</div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

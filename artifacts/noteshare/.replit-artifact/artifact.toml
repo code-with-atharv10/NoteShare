@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "NoteShare"
+version = "1.0.0"
+id = "artifacts/noteshare"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25050
+
+[services.development]
+run = "pnpm --filter @workspace/noteshare run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/noteshare", "run", "build" ]
+publicDir = "artifacts/noteshare/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25050"
+BASE_PATH = "/"
